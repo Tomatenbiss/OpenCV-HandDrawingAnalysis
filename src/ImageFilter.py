@@ -14,3 +14,8 @@ def filterHSVRed(im, h_range, s_values, v_values):
     mask_merged = cv2.bitwise_or(mask1, mask2)
     res = cv2.bitwise_and(im, im, mask=mask_merged)
     return cv2.cvtColor(res, cv2.COLOR_HSV2BGR)
+
+def equalizeSaturation(im):
+    hsv = cv2.cvtColor(im, cv2.COLOR_BGR2HSV)
+    hsv[:,:,1] = cv2.equalizeHist(hsv[:,:,1])
+    return cv2.cvtColor(hsv, cv2.COLOR_HSV2BGR)
