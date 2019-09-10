@@ -1,6 +1,7 @@
 import cv2
 from cv2 import aruco
 from ImageRegistrator import ImageRegistrator
+import ImageFilter
 import OpenCVHelper
 
 if __name__ == "__main__":
@@ -9,5 +10,6 @@ if __name__ == "__main__":
         filename = '../data/im_temp_' + str(i + 1).zfill(2) +  '.jpg'
         im = cv2.imread(filename)
         im_reg = registrator.registerImage(im)
-        im_contours = OpenCVHelper.drawContours(im_reg)
+        im_filt = ImageFilter.filterHSVRed(im_reg, 5, (40, 255), (110, 150))
+        im_contours = OpenCVHelper.drawContours(im_filt)
         OpenCVHelper.show(im_contours)
