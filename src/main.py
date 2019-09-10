@@ -19,7 +19,7 @@ if __name__ == "__main__":
         # OpenCVHelper.show(im_contours)
         imageTiler = ImageTiler(im_contours, 200, 200)
         tiles = imageTiler.getTiles()
-        # for i in range(len(tiles)):
-        #     new_tile = tiles[i].astype('float32')
-        #     tiles[i] = OpenCVHelper.fitLine(new_tile)
-        # OpenCVHelper.show(imageTiler.reassembleImage(tiles))
+        for i in range(len(tiles)):
+            new_tile = tiles[i].astype('float32')
+            tiles[i] = OpenCVHelper.fitLinePCA(new_tile)
+        OpenCVHelper.show(imageTiler.reassembleImage(tiles))

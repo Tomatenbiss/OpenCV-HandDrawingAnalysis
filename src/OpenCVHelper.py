@@ -1,5 +1,6 @@
 import cv2
 import numpy as np
+from sklearn.decomposition import PCA
 
 def dilateImage(im, kernelsize=5, iterations=1):
     kernel = np.ones((kernelsize,kernelsize),np.uint8)
@@ -26,6 +27,22 @@ def fitLineCV(im):
         im = cv2.line(empty,(cols-1,righty),(0,lefty),(0,255,0),5)
     return im
     
+def fitLinePCA(im):
+    empty = np.zeros(im.shape)
+    gray = cv2.cvtColor(im, cv2.COLOR_BGR2GRAY)
+    pts = np.argwhere(gray == 255)
+    if len(pts) > 0:
+        pts[:,[0,1]] = pts[:,[1,0]]
+        pca = PCA(n_components=2)
+        pca.fit(pts)
+        
+        vector1 = np.add(pca.mean_, np.multiply(pca.components_[0], np.sqrt(pca.explained_variance_[0] * 3)))
+        vector2 = np.add(pca.mean_, np.multiply(pca.components_[0], -np.sqrt(pca.explained_variance_[0] * 3)))
+        
+        im = cv2.line(empty, (int(pca.mean_[0]), int(pca.mean_[1])), (int(vector1[0]), int(vector1[1])), (0,255,0), 5)
+        im = cv2.line(im, (int(pca.mean_[0]), int(pca.mean_[1])), (int(vector2[0]), int(vector2[1])), (0,255,0), 5)
+        # im = cv2.line(im, pca.mean_, vector2, (0,255,0), 5)
+    return im
 
 def getContours(im):
     imgray = cv2.cvtColor(im, cv2.COLOR_BGR2GRAY)
