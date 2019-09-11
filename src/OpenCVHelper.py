@@ -44,10 +44,15 @@ def fitLinePCA(im):
         # im = cv2.line(im, pca.mean_, vector2, (0,255,0), 5)
     return im
 
+def getBinaryImage(im):
+    im = cv2.cvtColor(im, cv2.COLOR_BGR2GRAY)
+    _,res = cv2.threshold(im,0,255,cv2.THRESH_BINARY+cv2.THRESH_OTSU)
+    return res
+
 def getContours(im):
-    imgray = cv2.cvtColor(im, cv2.COLOR_BGR2GRAY)
-    _,th = cv2.threshold(imgray,0,255,cv2.THRESH_BINARY+cv2.THRESH_OTSU)
-    contours, hierarchy = cv2.findContours(th, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+    im = cv2.cvtColor(im, cv2.COLOR_BGR2GRAY)
+    _,im = cv2.threshold(im,0,255,cv2.THRESH_BINARY+cv2.THRESH_OTSU)
+    contours, hierarchy = cv2.findContours(im, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
     return (contours, hierarchy)
 
 def filterContoursByArea(contours, threshold):
