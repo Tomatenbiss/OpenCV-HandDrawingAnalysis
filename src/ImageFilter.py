@@ -1,6 +1,14 @@
 import cv2
 import numpy as np
 
+def equalizeSaturation(im):
+    hsv = cv2.cvtColor(im, cv2.COLOR_BGR2HSV)
+    hsv[:,:,1] = cv2.equalizeHist(hsv[:,:,1])
+    return cv2.cvtColor(hsv, cv2.COLOR_HSV2BGR)
+
+def filterByMask(im, mask):
+    return cv2.bitwise_and(im, im, mask=mask)
+
 def filterHSVRed(im, h_range, s_values, v_values):
     im = cv2.cvtColor(im, cv2.COLOR_BGR2HSV)
     lower = np.array([0, s_values[0], v_values[0]])
@@ -15,7 +23,3 @@ def filterHSVRed(im, h_range, s_values, v_values):
     res = cv2.bitwise_and(im, im, mask=mask_merged)
     return cv2.cvtColor(res, cv2.COLOR_HSV2BGR)
 
-def equalizeSaturation(im):
-    hsv = cv2.cvtColor(im, cv2.COLOR_BGR2HSV)
-    hsv[:,:,1] = cv2.equalizeHist(hsv[:,:,1])
-    return cv2.cvtColor(hsv, cv2.COLOR_HSV2BGR)
