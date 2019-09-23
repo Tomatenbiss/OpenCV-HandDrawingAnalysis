@@ -2,6 +2,11 @@ import cv2
 import numpy as np
 from sklearn.decomposition import PCA
 
+def combineImages(im1, im2):
+    im1 = im1.astype('uint8')
+    im1 = cv2.cvtColor(im1, cv2.COLOR_BGR2GRAY)
+    return cv2.addWeighted(im1, 1.0, im2, 1.0, 0.0)
+
 def dilateImage(im, kernelsize=5, iterations=1):
     """ 
     Applies OpenCVs dilate() method on the image.
@@ -85,6 +90,9 @@ def filterContoursByArea(contours, threshold):
         if cv2.contourArea(contour) > threshold: 
             res_contours.append(contour)
     return res_contours
+
+def invert(im):
+    return cv2.bitwise_not(im)
 
 def show(im, im_size=(900, 900)):
     """
