@@ -1,3 +1,4 @@
+import ContourEvaluator
 import cv2
 from cv2 import aruco
 import ImageAnalysis
@@ -30,9 +31,12 @@ if __name__ == "__main__":
     # # cv2.imwrite('../data/im_out_' + str(i + 1).zfill(2) + '.jpg', imageTiler.reassembleImage(tiles))
     
     im_mask = OpenCVHelper.getBinaryImage(cv2.imread(('../data/mask/teddy-10-outer-mask.jpg')))
-    im_final = ImageFilter.filterByMask(im_contours, im_mask)
-    print(ImageAnalysis.getTotalContourLength(im_final))
     
-    im_mask_inverted = OpenCVHelper.invert(im_mask)
-    im_combined = OpenCVHelper.combineImages(im_final, im_mask_inverted)
-    OpenCVHelper.show(im_combined)
+    im_final = ImageFilter.filterByMask(im_contours, im_mask)
+    eval = ContourEvaluator.ContourEvaluator('../data/mask/distance/')
+    # eval.evaluateContours(im_final)
+    # print(ImageAnalysis.getTotalContourLength(im_final))
+    
+    # im_mask_inverted = OpenCVHelper.invert(im_mask)
+    # im_combined = OpenCVHelper.combineImages(im_final, im_mask_inverted)
+    # OpenCVHelper.show(im_final)
