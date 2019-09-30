@@ -19,8 +19,9 @@ def drawContours(im, color=(255,255,255), contours=None):
     Draws a set of contours on the image. If no contours are passed they 
     are found using OpenCV's findContours() method.
     """
-    res = np.zeros(im.shape)
-    if contours == None:
+    
+    res = np.zeros(im.shape, dtype=np.uint8)
+    if contours is None:
         contours, hierarchy = getContours(im)
     if len(contours) > 0:
         im = cv2.drawContours(res, contours, -1, color, cv2.FILLED)
